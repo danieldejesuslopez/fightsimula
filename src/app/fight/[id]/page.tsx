@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useLiveOdds } from "@/lib/useLiveOdds";
 import { placeBetOnChain, isContractDeployed } from "@/lib/contract";
 import FightChat from "@/components/FightChat";
+import ChibiArena from "@/components/ChibiArena";
 
 interface Fighter {
   id: string; name: string; nickname: string; style: string;
@@ -445,6 +446,22 @@ export default function FightPage({ params }: { params: Promise<{ id: string }> 
             {/* ARENA TAB */}
             {activeTab === "arena" && (
               <>
+                {/* Chibi 3D Fight Visualizer */}
+                {rounds.length > 0 && (
+                  <div className="bg-[#161b22] rounded-2xl border border-[#1c2333] p-6">
+                    <h3 className="text-sm font-bold uppercase tracking-wider text-gray-500 mb-3">Chibi Arena</h3>
+                    <ChibiArena
+                      nameA={fight.fighterA.name}
+                      nameB={fight.fighterB.name}
+                      colorA="#ef4444"
+                      colorB="#3b82f6"
+                      events={isPlaying && playbackIndex >= 0 && playbackIndex < rounds.length ? rounds[playbackIndex].events : []}
+                      finish={isPlaying && playbackIndex >= 0 && playbackIndex < rounds.length ? rounds[playbackIndex].finish ?? null : null}
+                      playToken={playbackIndex}
+                    />
+                  </div>
+                )}
+
                 {/* AI Fight Video */}
                 {fight.status === "finished" && (
                   <div className="bg-[#161b22] rounded-2xl border border-[#1c2333] p-6">
